@@ -25,7 +25,7 @@ steps:
     ServerName: 'aanvy.database.windows.net'
     DatabaseName: 'Aanvy'
     SqlUsername: 'aanvy'
-    SqlPassword: 'Test2022'
+    SqlPassword: 'Rama@722'
     TaskNameSelector: 'SqlTaskFile'
     IpDetectionMethod: 'AutoDetect'
 - task: CopyFiles@2
