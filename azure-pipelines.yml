@@ -19,6 +19,15 @@ steps:
     npm install -g @angular/cli
     npm install
   displayName: 'npm install and build'
+- task: AzureMysqlDeployment@1
+  inputs:
+    azureSubscription: 'Pay-As-You-Go(221386e0-e9da-49fa-b7aa-96d033ab0c0f)'
+    ServerName: 'aanvy.database.windows.net'
+    DatabaseName: 'Aanvy'
+    SqlUsername: 'aanvy'
+    SqlPassword: 'Test2022'
+    TaskNameSelector: 'SqlTaskFile'
+    IpDetectionMethod: 'AutoDetect'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
