@@ -27,7 +27,7 @@ steps:
     scriptPath: 'pipeline_script.sh'
 - task: AzureCLI@2
   inputs:
-    azureSubscription: 'My Azure Students Subscription'
+    azureSubscription: Aanvy-training'
     scriptType: 'bash'
     scriptLocation: 'scriptPath'
     scriptPath: 'pipeline_script.sh'
