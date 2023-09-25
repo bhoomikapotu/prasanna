@@ -18,7 +18,6 @@ steps:
 - script: |
    npm install -g @angular/cli
    npm install 
- workingDirectory: $(Build.SourcesDirectory)/site
  displayName: 'npm install'
 
 - script: npm run lint
