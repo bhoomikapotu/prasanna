@@ -1,0 +1,55 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --prod
+  displayName: 'npm install and build'
+variables:
+- name: stgaccount2023
+  value: stgaccount2023
+- name: subscription
+  value: Subscription (221386e0-e9da-49fa-b7aa-96d033ab0c0f)
+stages:
+    - task: CmdLine@2
+      displayName: npm install
+      inputs:
+        script: |
+          npm install
+    - task: CmdLine@2
+      displayName: ng build
+      inputs:
+        script: |
+          set PATH=%PATH%;%CD%\node_modules\.bin;C:\npm\prefix
+          ng build --subresource-integrity --output-hashing none
+    - task: AzureFileCopy@2
+      displayName: Deploy Files
+      inputs:
+        SourcePath: '$(System.DefaultWorkingDirectory)\dist\$(Build.Repository.Name)'
+        azureSubscription: $(subscription)
+        Destination: 'AzureBlob'
+        storage: $(storageContainer)
+        ContainerName: '$web'
+        BlobPrefix: ''
+    - task: AzureCLI@2
+      displayName: Delete Old Files
+      inputs:
+        azureSubscription: $(subscription)
+        scriptType: 'pscore'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az storage blob delete-batch -s `$web --account-name $(storageContainer) --if-unmodified-since $(Get-Date ((Get-Date).addMinutes(-5)) -UFORMAT +%Y-%m-%dT%H:%MZ)'
