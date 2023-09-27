@@ -12,7 +12,7 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '12.x'
+    versionSpec: '10.x'
   displayName: 'Install Node.js'
 
 - script: |
@@ -20,20 +20,6 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
-# - task: AzureCLI@2
-#   displayName: 'Clear Static website'
-#   inputs:
-#     azureSubscription: 'Aanvy-client'
-#     scriptType: 'bash'
-#     scriptLocation: 'inlineScript'
-#     inlineScript: 'az storage blob delete-batch --account-name stgaccount2023 --source "\$web"'
-# - task: AzureCLI@2
-#   displayName: 'Upload new Static Website'
-#   inputs:
-#     azureSubscription: 'Aanvy-client'
-#     scriptType: 'bash'
-#     scriptLocation: 'inlineScript'
-#     inlineScript: 'az storage blob upload-batch --account-name stgaccount2023 --destination "\$web" --source ''$(Build.Repository.LocalPath)/dist/angular_app'''
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'dist'
